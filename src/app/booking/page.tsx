@@ -21,6 +21,8 @@ interface Room {
 
 interface Guest {
   fullName: string;
+  email: string;
+  guestClassification: string;
   travelAgent: string;
   company: string;
   source: string;
@@ -36,7 +38,6 @@ interface Guest {
   payment: string;
   resId: string;
   profileId: string;
-  deposit: number;
 }
 
 interface Payment {
@@ -72,6 +73,8 @@ export default function Booking() {
   // Step 2: Guest Data
   const [guestData, setGuestData] = useState<Guest>({
     fullName: 'Ahmed Mohammed Al-Rashid',
+    email: 'ahmed.alrashid@email.com',
+    guestClassification: 'Saudi Citizen',
     travelAgent: 'Emirates Travel Agency',
     company: 'Al-Rashid Trading Co.',
     source: 'Online Booking',
@@ -86,8 +89,7 @@ export default function Booking() {
     roomRate: 250,
     payment: 'credit',
     resId: 'RES-2024-001',
-    profileId: 'PROF-12345',
-    deposit: 500
+    profileId: 'PROF-12345'
   });
   
   // Step 3: Payment
@@ -446,6 +448,37 @@ export default function Booking() {
                   />
                 </div>
                 
+                {/* Email */}
+                <div className="space-y-2">
+                  <label className="block text-sm font-medium text-gray-700">
+                    {language === 'ar' ? 'البريد الإلكتروني' : 'Email'} *
+                  </label>
+                  <input
+                    type="email"
+                    value={guestData.email}
+                    onChange={(e) => setGuestData({...guestData, email: e.target.value})}
+                    className="w-full px-4 py-3 bg-white/50 border border-gray-200/50 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 backdrop-blur-sm"
+                    placeholder={language === 'ar' ? 'أدخل البريد الإلكتروني' : 'Enter email address'}
+                  />
+                </div>
+                
+                {/* Guest Classification */}
+                <div className="space-y-2">
+                  <label className="block text-sm font-medium text-gray-700">
+                    {language === 'ar' ? 'تصنيف النزيل' : 'Guest Classification'} *
+                  </label>
+                  <select
+                    value={guestData.guestClassification}
+                    onChange={(e) => setGuestData({...guestData, guestClassification: e.target.value})}
+                    className="w-full px-4 py-3 bg-white/50 border border-gray-200/50 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 backdrop-blur-sm"
+                  >
+                    <option value="">{language === 'ar' ? 'اختر تصنيف النزيل' : 'Select guest classification'}</option>
+                    <option value="Saudi Citizen">{language === 'ar' ? 'مواطن سعودي' : 'Saudi Citizen'}</option>
+                    <option value="Visitor">{language === 'ar' ? 'زائر' : 'Visitor'}</option>
+                    <option value="Resident">{language === 'ar' ? 'مقيم (غير سعودي)' : 'Resident (Non‑Saudi)'}</option>
+                  </select>
+                </div>
+                
                 {/* Travel Agent */}
                 <div className="space-y-2">
                   <label className="block text-sm font-medium text-gray-700">
@@ -618,19 +651,7 @@ export default function Booking() {
                   />
                 </div>
                 
-                {/* Deposit */}
-                <div className="space-y-2">
-                  <label className="block text-sm font-medium text-gray-700">
-                    {language === 'ar' ? 'العربون' : 'Deposit'}
-                  </label>
-                  <input
-                    type="number"
-                    value={guestData.deposit}
-                    onChange={(e) => setGuestData({...guestData, deposit: parseFloat(e.target.value) || 0})}
-                    className="w-full px-4 py-3 bg-white/50 border border-gray-200/50 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 backdrop-blur-sm"
-                    placeholder={language === 'ar' ? 'أدخل مبلغ العربون' : 'Enter deposit amount'}
-                  />
-                </div>
+
               </div>
             </div>
             
@@ -840,13 +861,14 @@ export default function Booking() {
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                     <div><span className="font-medium">Name:</span> {guestData.fullName}</div>
+                    <div><span className="font-medium">Email:</span> {guestData.email}</div>
+                    <div><span className="font-medium">Classification:</span> {guestData.guestClassification}</div>
                     <div><span className="font-medium">Nationality:</span> {guestData.nationality}</div>
                     <div><span className="font-medium">Telephone:</span> {guestData.telephone}</div>
                     <div><span className="font-medium">Company:</span> {guestData.company}</div>
                     <div><span className="font-medium">Travel Agent:</span> {guestData.travelAgent}</div>
                     <div><span className="font-medium">VIP:</span> {guestData.vip ? 'Yes' : 'No'}</div>
                     <div><span className="font-medium">Room No:</span> {guestData.roomNo}</div>
-                    <div><span className="font-medium">Deposit:</span> {guestData.deposit} SAR</div>
                   </div>
                 </div>
                 
@@ -945,6 +967,9 @@ export default function Booking() {
                         {language === 'ar' ? 'اسم النزيل' : 'Guest Name'}
                       </th>
                       <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
+                        {language === 'ar' ? 'التصنيف' : 'Classification'}
+                      </th>
+                      <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
                         {language === 'ar' ? 'الغرفة' : 'Room'}
                       </th>
                       <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
@@ -967,7 +992,7 @@ export default function Booking() {
                   <tbody className="divide-y divide-gray-200/50">
                     {filteredBookings.length === 0 ? (
                       <tr>
-                        <td colSpan={8} className="px-4 py-8 text-center text-gray-500">
+                        <td colSpan={9} className="px-4 py-8 text-center text-gray-500">
                           {language === 'ar' ? 'لا توجد حجوزات' : 'No bookings found'}
                         </td>
                       </tr>
@@ -982,6 +1007,9 @@ export default function Booking() {
                             {booking.guest.vip && (
                               <span className="ml-2 inline-block w-2 h-2 bg-yellow-400 rounded-full" title="VIP"></span>
                             )}
+                          </td>
+                          <td className="px-4 py-3 text-sm text-gray-700">
+                            {booking.guest.guestClassification}
                           </td>
                           <td className="px-4 py-3 text-sm text-gray-700">
                             {booking.room.type}
@@ -1002,16 +1030,46 @@ export default function Booking() {
                           </td>
                           <td className="px-4 py-3">
                             <div className="flex space-x-2">
-                              <button className="text-blue-600 hover:text-blue-800 text-sm font-medium">
+                              <button 
+                                onClick={() => {
+                                  // View booking details
+                                  console.log('View booking:', booking.id);
+                                  alert(`Viewing booking ${booking.resId} for ${booking.guest.fullName}`);
+                                }}
+                                className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                              >
                                 {language === 'ar' ? 'عرض' : 'View'}
                               </button>
-                              <button className="text-green-600 hover:text-green-800 text-sm font-medium">
+                              <button 
+                                onClick={() => {
+                                  // Edit booking
+                                  console.log('Edit booking:', booking.id);
+                                  alert(`Editing booking ${booking.resId}`);
+                                }}
+                                className="text-green-600 hover:text-green-800 text-sm font-medium"
+                              >
                                 {language === 'ar' ? 'تعديل' : 'Edit'}
                               </button>
-                              <button className="text-red-600 hover:text-red-800 text-sm font-medium">
+                              <button 
+                                onClick={() => {
+                                  // Cancel booking
+                                  if (confirm(`Are you sure you want to cancel booking ${booking.resId}?`)) {
+                                    console.log('Cancel booking:', booking.id);
+                                    alert(`Booking ${booking.resId} has been cancelled`);
+                                  }
+                                }}
+                                className="text-red-600 hover:text-red-800 text-sm font-medium"
+                              >
                                 {language === 'ar' ? 'إلغاء' : 'Cancel'}
                               </button>
-                              <button className="text-purple-600 hover:text-purple-800 text-sm font-medium">
+                              <button 
+                                onClick={() => {
+                                  // Print booking
+                                  console.log('Print booking:', booking.id);
+                                  window.print();
+                                }}
+                                className="text-purple-600 hover:text-purple-800 text-sm font-medium"
+                              >
                                 {language === 'ar' ? 'طباعة' : 'Print'}
                               </button>
                             </div>

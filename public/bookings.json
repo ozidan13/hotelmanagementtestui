@@ -4,6 +4,7 @@
     "resId": "RES001",
     "guest": {
       "fullName": "John Smith",
+      "guestClassification": "Visitor",
       "travelAgent": "Global Travel Co.",
       "company": "Tech Solutions Inc.",
       "source": "Online",
@@ -18,8 +19,7 @@
       "roomRate": 250,
       "payment": "credit",
       "resId": "RES001",
-      "profileId": "PROF001",
-      "deposit": 500
+      "profileId": "PROF001"
     },
     "room": {
       "id": "1",
@@ -56,6 +56,7 @@
     "resId": "RES002",
     "guest": {
       "fullName": "Sarah Johnson",
+      "guestClassification": "Visitor",
       "travelAgent": "Vacation Experts",
       "company": "Marketing Plus",
       "source": "Phone",
@@ -70,8 +71,7 @@
       "roomRate": 320,
       "payment": "visa",
       "resId": "RES002",
-      "profileId": "PROF002",
-      "deposit": 320
+      "profileId": "PROF002"
     },
     "room": {
       "id": "5",
@@ -105,6 +105,7 @@
     "resId": "RES003",
     "guest": {
       "fullName": "Ahmed Al-Rashid",
+      "guestClassification": "Saudi Citizen",
       "travelAgent": "Middle East Tours",
       "company": "Oil & Gas Corp",
       "source": "Agent",
@@ -119,8 +120,7 @@
       "roomRate": 150,
       "payment": "cash",
       "resId": "RES003",
-      "profileId": "PROF003",
-      "deposit": 150
+      "profileId": "PROF003"
     },
     "room": {
       "id": "7",
@@ -154,6 +154,7 @@
     "resId": "RES004",
     "guest": {
       "fullName": "Maria Garcia",
+      "guestClassification": "Visitor",
       "travelAgent": "Family Vacations",
       "company": "Self-Employed",
       "source": "Website",
@@ -168,8 +169,7 @@
       "roomRate": 180,
       "payment": "credit",
       "resId": "RES004",
-      "profileId": "PROF004",
-      "deposit": 360
+      "profileId": "PROF004"
     },
     "room": {
       "id": "2",
@@ -205,6 +205,7 @@
     "resId": "RES005",
     "guest": {
       "fullName": "David Wilson",
+      "guestClassification": "Visitor",
       "travelAgent": "Business Travel Solutions",
       "company": "Wilson Consulting",
       "source": "Corporate",
@@ -219,8 +220,7 @@
       "roomRate": 200,
       "payment": "visa",
       "resId": "RES005",
-      "profileId": "PROF005",
-      "deposit": 200
+      "profileId": "PROF005"
     },
     "room": {
       "id": "9",
@@ -254,6 +254,7 @@
     "resId": "RES006",
     "guest": {
       "fullName": "Lisa Chen",
+      "guestClassification": "Visitor",
       "travelAgent": "Asia Pacific Travel",
       "company": "Tech Innovations",
       "source": "Online",
@@ -268,8 +269,7 @@
       "roomRate": 140,
       "payment": "cash",
       "resId": "RES006",
-      "profileId": "PROF006",
-      "deposit": 140
+      "profileId": "PROF006"
     },
     "room": {
       "id": "11",
@@ -303,6 +303,7 @@
     "resId": "RES007",
     "guest": {
       "fullName": "Robert Brown",
+      "guestClassification": "Visitor",
       "travelAgent": "Executive Travel",
       "company": "Brown Industries",
       "source": "Phone",
@@ -317,8 +318,7 @@
       "roomRate": 160,
       "payment": "visa",
       "resId": "RES007",
-      "profileId": "PROF007",
-      "deposit": 160
+      "profileId": "PROF007"
     },
     "room": {
       "id": "10",

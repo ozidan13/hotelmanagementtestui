@@ -14,6 +14,7 @@ interface Guest {
   firstName: string;
   lastName: string;
   email: string;
+  guestClassification: string;
   telephone: string;
   nationality: string;
   passportNumber: string;
@@ -117,6 +118,7 @@ export default function Guests() {
             firstName: 'Ahmed',
             lastName: 'Al-Rashid',
             email: 'ahmed.rashid@email.com',
+            guestClassification: 'Saudi Citizen',
             telephone: '+966501234567',
             nationality: 'Saudi Arabia',
             passportNumber: 'SA123456789',
@@ -160,6 +162,7 @@ export default function Guests() {
             firstName: 'Sarah',
             lastName: 'Johnson',
             email: 'sarah.johnson@email.com',
+            guestClassification: 'Visitor',
             telephone: '+1234567890',
             nationality: 'United States',
             passportNumber: 'US987654321',
@@ -203,6 +206,7 @@ export default function Guests() {
             firstName: 'Mohammed',
             lastName: 'Hassan',
             email: 'mohammed.hassan@email.com',
+            guestClassification: 'Resident',
             telephone: '+971501234567',
             nationality: 'United Arab Emirates',
             passportNumber: 'AE456789123',
@@ -579,6 +583,9 @@ export default function Guests() {
                       {language === 'ar' ? 'الجنسية' : 'Nationality'}
                     </th>
                     <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
+                      {language === 'ar' ? 'التصنيف' : 'Classification'}
+                    </th>
+                    <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
                       {language === 'ar' ? 'برنامج الولاء' : 'Loyalty Program'}
                     </th>
                     <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
@@ -595,7 +602,7 @@ export default function Guests() {
                 <tbody className="divide-y divide-gray-200/50">
                   {paginatedGuests.length === 0 ? (
                     <tr>
-                      <td colSpan={7} className="px-4 py-8 text-center text-gray-500">
+                      <td colSpan={8} className="px-4 py-8 text-center text-gray-500">
                         {language === 'ar' ? 'لا توجد نزلاء' : 'No guests found'}
                       </td>
                     </tr>
@@ -625,6 +632,9 @@ export default function Guests() {
                         <td className="px-4 py-3 text-sm text-gray-700">
                           <div>{guest.nationality}</div>
                           <div className="text-xs text-gray-500">{guest.gender === 'male' ? (language === 'ar' ? 'ذكر' : 'Male') : (language === 'ar' ? 'أنثى' : 'Female')}</div>
+                        </td>
+                        <td className="px-4 py-3 text-sm text-gray-700">
+                          <div>{guest.guestClassification}</div>
                         </td>
                         <td className="px-4 py-3">
                           {guest.loyaltyProgram.member ? (
@@ -667,7 +677,14 @@ export default function Guests() {
                             >
                               {language === 'ar' ? 'تعديل' : 'Edit'}
                             </button>
-                            <button className="text-purple-600 hover:text-purple-800 text-sm font-medium">
+                            <button 
+                              onClick={() => {
+                                // View guest bookings
+                                console.log('View bookings for guest:', guest.id);
+                                alert(`Viewing bookings for ${guest.fullName}`);
+                              }}
+                              className="text-purple-600 hover:text-purple-800 text-sm font-medium"
+                            >
                               {language === 'ar' ? 'الحجوزات' : 'Bookings'}
                             </button>
                           </div>
@@ -818,6 +835,7 @@ export default function Guests() {
                   </h3>
                   <div><strong>Name:</strong> {selectedGuest.fullName}</div>
                   <div><strong>Email:</strong> {selectedGuest.email}</div>
+                  <div><strong>Classification:</strong> {selectedGuest.guestClassification}</div>
                   <div><strong>Phone:</strong> {selectedGuest.telephone}</div>
                   <div><strong>Nationality:</strong> {selectedGuest.nationality}</div>
                   <div><strong>Gender:</strong> {selectedGuest.gender}</div>

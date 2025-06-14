@@ -21,6 +21,8 @@ interface Room {
 
 interface Guest {
   fullName: string;
+  email: string;
+  guestClassification: string;
   travelAgent: string;
   company: string;
   source: string;
@@ -36,7 +38,6 @@ interface Guest {
   payment: string;
   resId: string;
   profileId: string;
-  deposit: number;
 }
 
 interface Payment {
@@ -474,6 +475,9 @@ export default function Reservations() {
                       {language === 'ar' ? 'اسم النزيل' : 'Guest Name'}
                     </th>
                     <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
+                      {language === 'ar' ? 'التصنيف' : 'Classification'}
+                    </th>
+                    <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
                       {language === 'ar' ? 'الفندق' : 'Hotel'}
                     </th>
                     <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
@@ -499,7 +503,7 @@ export default function Reservations() {
                 <tbody className="divide-y divide-gray-200/50">
                   {paginatedBookings.length === 0 ? (
                     <tr>
-                      <td colSpan={10} className="px-4 py-8 text-center text-gray-500">
+                      <td colSpan={11} className="px-4 py-8 text-center text-gray-500">
                         {language === 'ar' ? 'لا توجد حجوزات' : 'No reservations found'}
                       </td>
                     </tr>
@@ -533,6 +537,9 @@ export default function Reservations() {
                           <div className="text-xs text-gray-500">{booking.guest.telephone}</div>
                         </td>
                         <td className="px-4 py-3 text-sm text-gray-700">
+                          {booking.guest.guestClassification}
+                        </td>
+                        <td className="px-4 py-3 text-sm text-gray-700">
                           {hotels.find(h => h.id === booking.room.hotelId)?.name || 'Unknown'}
                         </td>
                         <td className="px-4 py-3 text-sm text-gray-700">
@@ -556,16 +563,45 @@ export default function Reservations() {
                         </td>
                         <td className="px-4 py-3">
                           <div className="flex space-x-2">
-                            <button className="text-blue-600 hover:text-blue-800 text-sm font-medium">
+                            <button 
+                              onClick={() => {
+                                // Add view functionality here
+                                console.log('View booking:', booking.id);
+                              }}
+                              className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                            >
                               {language === 'ar' ? 'عرض' : 'View'}
                             </button>
-                            <button className="text-green-600 hover:text-green-800 text-sm font-medium">
+                            <button 
+                              onClick={() => {
+                                // Edit reservation
+                                console.log('Edit reservation:', booking.id);
+                                alert(`Editing reservation ${booking.resId}`);
+                              }}
+                              className="text-green-600 hover:text-green-800 text-sm font-medium"
+                            >
                               {language === 'ar' ? 'تعديل' : 'Edit'}
                             </button>
-                            <button className="text-red-600 hover:text-red-800 text-sm font-medium">
+                            <button 
+                              onClick={() => {
+                                // Cancel reservation
+                                if (confirm(`Are you sure you want to cancel reservation ${booking.resId}?`)) {
+                                  console.log('Cancel reservation:', booking.id);
+                                  alert(`Reservation ${booking.resId} has been cancelled`);
+                                }
+                              }}
+                              className="text-red-600 hover:text-red-800 text-sm font-medium"
+                            >
                               {language === 'ar' ? 'إلغاء' : 'Cancel'}
                             </button>
-                            <button className="text-purple-600 hover:text-purple-800 text-sm font-medium">
+                            <button 
+                              onClick={() => {
+                                // Print reservation
+                                console.log('Print reservation:', booking.id);
+                                window.print();
+                              }}
+                              className="text-purple-600 hover:text-purple-800 text-sm font-medium"
+                            >
                               {language === 'ar' ? 'طباعة' : 'Print'}
                             </button>
                           </div>
@@ -604,10 +640,23 @@ export default function Reservations() {
                   </div>
                   
                   <div className="flex space-x-2">
-                    <button className="flex-1 px-3 py-2 bg-blue-500 text-white text-sm rounded-lg hover:bg-blue-600 transition-colors">
+                    <button 
+                      onClick={() => {
+                        // Add view functionality here
+                        console.log('View booking:', booking.id);
+                      }}
+                      className="flex-1 px-3 py-2 bg-blue-500 text-white text-sm rounded-lg hover:bg-blue-600 transition-colors"
+                    >
                       {language === 'ar' ? 'عرض' : 'View'}
                     </button>
-                    <button className="flex-1 px-3 py-2 bg-green-500 text-white text-sm rounded-lg hover:bg-green-600 transition-colors">
+                    <button 
+                      onClick={() => {
+                        // Edit reservation
+                        console.log('Edit reservation:', booking.id);
+                        alert(`Editing reservation ${booking.resId}`);
+                      }}
+                      className="flex-1 px-3 py-2 bg-green-500 text-white text-sm rounded-lg hover:bg-green-600 transition-colors"
+                    >
                       {language === 'ar' ? 'تعديل' : 'Edit'}
                     </button>
                   </div>
