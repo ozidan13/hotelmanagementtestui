@@ -242,23 +242,7 @@ export default function Booking() {
       <div className="relative z-10 w-full max-w-6xl">
         {/* Glassmorphism card */}
         <div className="backdrop-blur-xl bg-white/70 border border-white/20 rounded-3xl shadow-2xl p-8 space-y-8">
-          {/* Header */}
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <div className="w-3 h-3 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full animate-pulse"></div>
-              <h1 className="text-3xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
-                {language === 'ar' ? 'نظام الحجوزات' : 'Booking System'}
-              </h1>
-            </div>
-            
-            {/* Language Toggle */}
-            <button
-              onClick={() => setLanguage(language === 'en' ? 'ar' : 'en')}
-              className="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-medium rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
-            >
-              {language === 'ar' ? 'English' : 'العربية'}
-            </button>
-          </div>
+          
           
           {/* All Steps Content */}
           <div className="space-y-8">

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import LayoutWrapper from "../components/LayoutWrapper";
 
 
 // Optimized font loading with Apple-inspired configuration
@@ -35,7 +36,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <LayoutWrapper>
           {children}
+        </LayoutWrapper>
       </body>
     </html>
   );
