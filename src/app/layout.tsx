@@ -21,7 +21,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "PharmaBridge",
+  title: "Hotel management test ui",
   description: "Connect pharmacists with pharmacy owners",
 };
 
