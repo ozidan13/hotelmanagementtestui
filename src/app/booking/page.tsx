@@ -17,6 +17,7 @@ interface Room {
   rate: number;
   available: boolean;
   status: 'available' | 'occupied' | 'maintenance';
+  availableCount?: number;
 }
 
 interface Guest {
@@ -55,6 +56,7 @@ interface Booking {
   resId: string;
   guest: Guest;
   room: Room;
+  numberOfRooms: number;
   payment: Payment;
   status: 'pending' | 'confirmed' | 'checked-in' | 'cancelled';
   createdAt: string;
@@ -66,6 +68,7 @@ export default function Booking() {
   // Step 1: Room Selection
   const [selectedHotelId, setSelectedHotelId] = useState('hotel-1');
   const [selectedRoomId, setSelectedRoomId] = useState('room-1');
+  const [numberOfRooms, setNumberOfRooms] = useState(1);
   const [arrivalDate, setArrivalDate] = useState('2024-01-15');
   const [departureDate, setDepartureDate] = useState('2024-01-20');
   const [numberOfNights, setNumberOfNights] = useState(5);
@@ -184,6 +187,7 @@ export default function Booking() {
           roomRate: selectedRoom.rate
         },
         room: selectedRoom,
+        numberOfRooms: numberOfRooms,
         payment: paymentData,
         status: 'confirmed',
         createdAt: new Date().toISOString()
@@ -295,7 +299,7 @@ export default function Booking() {
                             occupied: 'bg-red-100 border-red-300 text-red-800 cursor-not-allowed',
                             maintenance: 'bg-yellow-100 border-yellow-300 text-yellow-800 cursor-not-allowed'
                           };
-                          const isSelectable = room.status === 'available';
+                          const isSelectable = room.status === 'available' && (room.availableCount || 0) > 0;
                           return (
                             <div
                               key={room.id}
@@ -308,6 +312,17 @@ export default function Booking() {
                                 <div>
                                   <div className="font-medium">{room.type}</div>
                                   <div className="text-sm opacity-75">{room.boardType}</div>
+                                  <div className="text-xs mt-1">
+                                    {room.status === 'available' ? (
+                                      <span className="text-green-600 font-medium">
+                                        {language === 'ar' ? `${room.availableCount || 0} غرفة متاحة` : `${room.availableCount || 0} rooms available`}
+                                      </span>
+                                    ) : (
+                                      <span className="text-red-600 font-medium">
+                                        {language === 'ar' ? 'غير متاح' : 'Not available'}
+                                      </span>
+                                    )}
+                                  </div>
                                 </div>
                                 <div className="text-right">
                                   <div className="font-bold">{room.rate} {language === 'ar' ? 'ريال' : 'SAR'}/night</div>
@@ -320,6 +335,37 @@ export default function Booking() {
                       </div>
                     )}
                   </div>
+                </div>
+                
+                {/* Number of Rooms */}
+                <div className="space-y-2">
+                  <label className="block text-sm font-medium text-gray-700">
+                    {language === 'ar' ? 'عدد الغرف' : 'Number of Rooms'}
+                  </label>
+                  <select
+                    value={numberOfRooms}
+                    onChange={(e) => setNumberOfRooms(parseInt(e.target.value))}
+                    disabled={!selectedRoomId}
+                    className="w-full px-4 py-3 bg-white/50 border border-gray-200/50 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 backdrop-blur-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {!selectedRoomId ? (
+                      <option value={1}>{language === 'ar' ? 'اختر نوع الغرفة أولاً' : 'Select room type first'}</option>
+                    ) : (
+                      Array.from({ length: Math.min(10, (getSelectedRoom()?.availableCount || 0)) }, (_, i) => i + 1).map(num => (
+                        <option key={num} value={num}>
+                          {num} {language === 'ar' ? (num === 1 ? 'غرفة' : 'غرف') : (num === 1 ? 'room' : 'rooms')}
+                        </option>
+                      ))
+                    )}
+                  </select>
+                  {selectedRoomId && (
+                    <div className="text-xs text-gray-600 mt-1">
+                      {language === 'ar' 
+                        ? `الحد الأقصى: ${getSelectedRoom()?.availableCount || 0} غرف متاحة`
+                        : `Maximum: ${getSelectedRoom()?.availableCount || 0} rooms available`
+                      }
+                    </div>
+                  )}
                 </div>
                 
                 {/* Arrival Date */}
@@ -412,7 +458,15 @@ export default function Booking() {
                                 </span>
                               </div>
                               <div className="text-lg font-bold text-blue-600">
-                                {language === 'ar' ? 'الإجمالي:' : 'Total:'} {(room?.rate || 0) * numberOfNights} {language === 'ar' ? 'ريال' : 'SAR'}
+                                {language === 'ar' ? 'الإجمالي:' : 'Total:'} {(room?.rate || 0) * numberOfNights * numberOfRooms} {language === 'ar' ? 'ريال' : 'SAR'}
+                                {numberOfRooms > 1 && (
+                                  <div className="text-sm text-gray-600 font-normal">
+                                    {language === 'ar' 
+                                      ? `(${numberOfRooms} غرف × ${numberOfNights} ليالي × ${room?.rate || 0} ريال)`
+                                      : `(${numberOfRooms} rooms × ${numberOfNights} nights × ${room?.rate || 0} SAR)`
+                                    }
+                                  </div>
+                                )}
                               </div>
                             </div>
                           </div>
@@ -848,7 +902,8 @@ export default function Booking() {
                         <div><span className="font-medium">Arrival:</span> {arrivalDate}</div>
                         <div><span className="font-medium">Departure:</span> {departureDate}</div>
                         <div><span className="font-medium">Nights:</span> {numberOfNights}</div>
-                        <div><span className="font-medium">Total:</span> {(room?.rate || 0) * numberOfNights} SAR</div>
+                        <div><span className="font-medium">Number of Rooms:</span> {numberOfRooms}</div>
+                        <div><span className="font-medium">Total:</span> {(room?.rate || 0) * numberOfNights * numberOfRooms} SAR</div>
                       </div>
                     );
                   })()} 
